@@ -1,0 +1,80 @@
+﻿<mah:MetroWindow x:Class="HomeWork.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:HomeWork"
+                      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:core="clr-namespace:System;assembly=mscorlib"
+                      xmlns:viewModel="clr-namespace:HomeWork.ViewModel"
+                      mc:Ignorable="d"
+                      Title="{Binding Path=DirectoryChoosed}" Height="450" Width="800">
+
+   <Grid Row="2" Margin="20">
+        <Grid.RowDefinitions >
+            <RowDefinition Height="3*">
+                </RowDefinition>
+            <RowDefinition Height="1*">
+
+            </RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid  ItemsSource="{Binding Snapshots}" Grid.ColumnSpan="2" x:Name="SnapshotsTable" Grid.Row="0" 
+                   CanUserAddRows="False" AutoGenerateColumns="False" HorizontalGridLinesBrush="DarkGray"
+                  RowBackground="LightGray" AlternatingRowBackground="LightSkyBlue">
+            <DataGrid.Resources>
+                <ContextMenu x:Key="RowMenu"
+                             DataContext="{Binding RelativeSource={RelativeSource Mode=Self}, Path=PlacementTarget}">
+                    <MenuItem Header="Review" Click="MenuItemReview_OnClick" />
+                    <MenuItem Header="Save" Click="MenuItemSave_OnClick" />
+                </ContextMenu>
+            </DataGrid.Resources>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" >
+                    <Setter Property="ContextMenu" Value="{StaticResource RowMenu}" />
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*" />
+                <DataGridTextColumn Header="Date"  Binding="{Binding DateCreating}" Width="1*" />
+                <DataGridTemplateColumn Width="1*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
+                                <Button Style="{StaticResource AccentedSquareButtonStyle}" Content="Review"  Click="ButtonReviewBase_OnClick" Margin="5"/>
+                                <Button Style="{StaticResource AccentedSquareButtonStyle}" Content="Delete"  Click="ButtonDeleteBase_OnClick" Margin="5"/> 
+                            </StackPanel>
+                            
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+
+                   
+
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+                <Button    Click="ButtonOpenSnapshot_OnClick"  Grid.Column="3"   Style="{StaticResource AccentedSquareButtonStyle}" Width="Auto"  Content="Open snapshot" Margin="10" />
+            <Button  IsEnabled="{Binding Path=IsRecordingFinished}"  Click="ButtonChooseDirectory_OnClick"  Grid.Column="0"   Style="{StaticResource AccentedSquareButtonStyle}" Width="Auto"  Content="Choose directory" Margin="10" />
+                <Button   Command="{Binding Path=StartCommand}"  Grid.Column="1"   Style="{StaticResource AccentedSquareButtonStyle}" Width="Auto"  Content="Start recording" Margin="10" />
+                <Button   Command="{Binding Path=StopCommand}"   Grid.Column="2"  Style="{StaticResource AccentedSquareButtonStyle}" Width="Auto" Content="Stop recording" Margin="10" />
+            </Grid>
+      
+   </Grid>
+</mah:MetroWindow>
